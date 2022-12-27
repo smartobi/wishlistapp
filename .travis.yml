@@ -1,0 +1,23 @@
+language: generic
+
+services:
+  - docker
+
+after_succes:
+  - docker build -t vagdevik/user-wishlist-app .
+
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+  - docker push vagdevik/user-wishlist-app
+
+deploy:
+  provider: elasticbeanstalk
+  region: ap-south-1
+  app: my-user-wishlist-app
+  env: Myuserwishlistapp-env
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
+  bucket_name: "multi-container-wishlist-app"
+  bucket_path: "docker"
+  on:
+    branch: multi-cont-app
