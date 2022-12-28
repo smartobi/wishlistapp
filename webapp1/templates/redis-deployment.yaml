@@ -2,24 +2,25 @@ apiVersion: apps/v1
 kind: Deployment
 
 metadata:
-  name: redis-deployment
+  name: "{{ .Values.metadata.name }}"
+
 
 
 spec: 
-  replicas: 1
+  replicas: "{{ .Values.replicaCount }}"
 
   selector: 
     matchLabels: 
-      component: redis 
+      component: "{{ .Values.image.repository }}" 
 
   template:
     metadata:
       labels: 
-        component: redis 
+        component: "{{ .Values.image.repository }}" 
 
     spec:
       containers:
-        - name: redis
-          image: redis:6.0.8
+        - name: "{{ .Values.image.repository }}"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag| default .Chart.AppVersion }}"
           ports: 
-            - containerPort: 6379
+            - containerPort: "{{ .Values.service.port }}"  

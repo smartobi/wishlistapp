@@ -2,43 +2,43 @@ apiVersion: apps/v1
 kind: Deployment
 
 metadata:
-  name: postgres-deployment
+  name: "{{ .Values.metadata.name2 }}"
 spec:
-  replicas: 1
+  replicas: "{{ .Values.replicaCount }}"
   selector:
     matchLabels:
-      component: postgres
+      component: "{{ .Values.image2.repository }}"
 
 
   template:
     metadata:
       labels: 
-        component: postgres
+        component: "{{ .Values.image2.repository }}"
   
     spec:
       volumes:
-      - name: postgres-storage
+      - name: "{{ .Values.volume.name }}"
         persistentVolumeClaim:
-          claimName: database-persistent-volume-claim
+          claimName: "{{ .Values.volume.claimName }}"
 
       containers:
-      - name: postgres
-        image: postgres:14.6-alpine
+      - name: "{{ .Values.image2.repository }}"
+        image: "{{ .Values.image2.repository }}:{{ .Values.image2.tag| default .Chart.AppVersion }}"
         ports: 
-        - containerPort: 5432
+        - containerPort: "{{ .Values.service.port }}"
 
         volumeMounts:
-        - name: postgres-storage   
+        - name: "{{ .Values.volume.name }}"   
           mountPath: /var/lib/postgresql/data
           subPath: postgres
             
         env:
            - name: POSTGRES_USER
-             value: hello_flask
+             value: "{{ .Values.env.postgres.namevalue }}"
            - name: POSTGRES_DB
-             value: hello_flask_db
+             value: "{{ .Values.env.postgres.dbvalue }}"
            - name: POSTGRES_PASSWORD
              valueFrom: 
                secretKeyRef:
-                 name: pgpassword
-                 key: PGPASSWORD
+                 name: "{{ .Values.env.postgres.secret.name }}"
+                 key: "{{ .Values.env.postgres.secret.key }}"

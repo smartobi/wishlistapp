@@ -1,40 +1,40 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web-deployment
+  name: "{{ .Values.metadata.name3 }}"
 
 spec:
-  replicas: 2
+  replicas: "{{ .Values.replicaCount2 }}"
   selector: 
     matchLabels:
-      component: wishlist-app
+      component: "{{ .Values.image3.name }}"
   template:
     metadata:
       labels:
-        component: wishlist-app
+        component: "{{ .Values.image3.name }}"
     spec:
       containers:
-      - name: whislist-app-container
-        image: smartcloud2022/user-wishlist-app:latest
+      - name: "{{ .Values.image3.name }}"
+        image: "{{ .Values.image3.repository }}:{{ .Values.image3.tag }}"
         ports:
-        - containerPort: 80
+        - containerPort: "{{ .Values.service.port3 }}"
         env:
           - name: REDIS_HOST
-            value: redis-service
+            value: "{{ .Values.env.redis.namevalue }}"
           - name: REDIS_PORT
-            value: '6379'
+            value: "{{ .Values.env.redis.portvalue }}"
           - name: POSTGRES_HOST
-            value: postgres-service
+            value: "{{ .Values.service.name2 }}"
           - name: POSTGRES_USER
-            value: hello_flask
+            value: "{{ .Values.env.postgres.namevalue }}"
           - name: POSTGRES_PORT
-            value: '5432'
+            value: "{{ .Values.env.postgres.portvalue }}"
           - name: POSTGRES_DB
-            value: hello_flask_db
+            value: "{{ .Values.env.postgres.dbvalue }}"
           - name: PGPASSWORD
             valueFrom:
               secretKeyRef:
-               name: pgpassword
-               key: PGPASSWORD
+               name: "{{ .Values.env.postgres.secret.name }}"
+               key: "{{ .Values.env.postgres.secret.key }}"
 
  
