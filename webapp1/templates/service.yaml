@@ -8,5 +8,5 @@ spec:
     component: "{{ .Values.image3.name }}"
   type: "{{ .Values.service.type }}"
   ports:
-    - port: "{{ .Values.service.port3 }}"
-      targetPort: "{{ .Values.service.port3 }}"
+    - port: 80
+      targetPort: 80

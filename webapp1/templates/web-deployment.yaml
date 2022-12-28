@@ -4,7 +4,7 @@ metadata:
   name: "{{ .Values.metadata.name3 }}"
 
 spec:
-  replicas: "{{ .Values.replicaCount2 }}"
+  replicas: 2
   selector: 
     matchLabels:
       component: "{{ .Values.image3.name }}"
@@ -17,7 +17,7 @@ spec:
       - name: "{{ .Values.image3.name }}"
         image: "{{ .Values.image3.repository }}:{{ .Values.image3.tag }}"
         ports:
-        - containerPort: "{{ .Values.service.port3 }}"
+        - containerPort: 80
         env:
           - name: REDIS_HOST
             value: "{{ .Values.env.redis.namevalue }}"

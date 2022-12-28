@@ -7,7 +7,7 @@ metadata:
 
 
 spec: 
-  replicas: "{{ .Values.replicaCount }}"
+  replicas: 1
 
   selector: 
     matchLabels: 
@@ -23,4 +23,4 @@ spec:
         - name: "{{ .Values.image.repository }}"
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag| default .Chart.AppVersion }}"
           ports: 
-            - containerPort: "{{ .Values.service.port }}"  
+            - containerPort: 6379  

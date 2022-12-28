@@ -11,5 +11,5 @@ spec:
 
   type: "{{ .Values.service.type }}"
   ports: 
-    - port: "{{ .Values.service.port }}"
-      targetPort: "{{ .Values.service.port }}"
+    - port: 6379
+      targetPort: 6379
